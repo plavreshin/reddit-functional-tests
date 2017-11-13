@@ -18,3 +18,9 @@ npm install allure-commandline -g
 
 Once `node_modules` are installed, feel free to run tests by executing: `npm test`.
 
+### Allure reports
+
+Allure reports can be viewed by executing following command:
+```
+allure generate allure-results; allure open allure-report
+```
