@@ -1,0 +1,10 @@
+
+# Things that should be installed locally
+node_modules/
+
+package-lock.json
+.vscode
+.history
+allure-report
+errorShots
+allure-results

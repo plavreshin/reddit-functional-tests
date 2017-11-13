@@ -1,0 +1,39 @@
+{
+  "name": "webdriver_typescript",
+  "version": "1.0.0",
+  "description": "An example project using WebdriverIO with TypeScript",
+  "main": "index.js",
+  "scripts": {
+    "pretest": "rm -rf allure-results",
+    "test": "node ./node_modules/typescript/lib/tsc.js && node ./node_modules/webdriverio/bin/wdio && node ./node_modules/rimraf/bin.js src",
+    "report": "allure generate allure-results --clean -o allure-report && allure open allure-report"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/WillLuce/WebdriverIO_Typescript.git"
+  },
+  "keywords": [
+    "Selenium",
+    "Mocha",
+    "WebdriverIO"
+  ],
+  "author": "William Luce",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/WillLuce/WebdriverIO_Typescript/issues"
+  },
+  "homepage": "https://github.com/WillLuce/WebdriverIO_Typescript#readme",
+  "devDependencies": {
+    "@types/chai": "^4.0.4",
+    "@types/mocha": "^2.2.44",
+    "@types/webdriverio": "^4.8.6",
+    "chai": "^4.1.2",
+    "rimraf": "^2.6.2",
+    "typescript": "^2.6.1",
+    "allure-commandline": "^2.0.0",
+    "wdio-allure-reporter": "^0.1.2",
+    "wdio-mocha-framework": "^0.5.11",
+    "wdio-selenium-standalone-service": "0.0.9",
+    "webdriverio": "^4.9.6"
+  }
+}
