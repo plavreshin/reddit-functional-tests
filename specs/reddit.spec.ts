@@ -12,30 +12,37 @@ describe('Reddit', () => {
         MainPage.signUp();
       });
 
-    it('Should observe user karma score', () => {
+    it('Func_11: Should observe user karma score', () => {
         MainPage.userKarma.waitForExist();
         expect(MainPage.userKarma.getText()).to.contain("1");
     });
 
-    it('Should be able to submit link content', () => {
+    it('Func_04: Should be able to submit link content', () => {
         SubmissionPage.open();
         let url = `https://${generateRandom()}.ee`;
         SubmissionPage.submitLinkContent("IDX1511", url, subreddit);
     });
 
-    it('Should be able to submit text content', () => {
+    it('Func_03: Should be able to submit text content', () => {
         SubmissionPage.open("submit?selftext=true");
         SubmissionPage.submitTextContent(generateRandom(), subreddit, generateRandom());
     });
 
-    it('Should be able to comment to just created text comment', () => {
+    it('Func_05: Should be able to comment to just created text content', () => {
         SubmissionPage.open("submit?selftext=true");
         let postedContent = SubmissionPage.submitTextContent(generateRandom(), subreddit, "myTopic");
         CommentsPage.open(postedContent);
         CommentsPage.addComment("myFirstComment");
     });
 
-    it('Should observe unread messages count equal to zero', () => {
+    it.skip('Func_05: Should be able edit created comment', () => {
+        SubmissionPage.open("submit?selftext=true");
+        let postedContent = SubmissionPage.submitTextContent(generateRandom(), subreddit, "myTopic");
+        CommentsPage.open(postedContent);
+        CommentsPage.addComment("myFirstComment");
+    });
+
+    it('Func_12: Should observe unread messages count equal to zero', () => {
         MainPage.noUnreadMessages.waitForExist();
     });
 });
