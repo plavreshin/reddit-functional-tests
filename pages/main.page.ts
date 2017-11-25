@@ -11,11 +11,11 @@ class MainPage {
         browser.submitForm('#login_login-main');
     }
 
-    public signUp(): void {
+    public signUp(userName: string, password: string): void {
         this.open('login');
-        let userName = this.generateRandom();
+        // let userName = this.generateRandom();
         browser.setValue("#user_reg", userName);
-        let password = this.generateRandom();
+        // let password = this.generateRandom();
         browser.setValue("#passwd_reg", password);
         browser.setValue("#passwd2_reg", password);
         let email = `${userName}@test.me`;
@@ -29,7 +29,29 @@ class MainPage {
         lookup.waitForExist();
     }
 
-    generateRandom = () =>  Math.random().toString(36).substring(7);
+    public searchContent(keyword: string): void {
+        let searchInput = browser.element('[name="q"]');
+        searchInput.waitForVisible(500);
+        searchInput.setValue(keyword);
+        browser.submitForm('#search');
+        browser.waitForExist(1000);
+    }
+
+    public toggleTabs(url: string=""){
+        let lookup = browser.element(`a[href="http://reddit.local/${url}/"]`);
+        lookup.click();
+        browser.waitForVisible('.tabmenu li.selected');
+        // browser.waitForVisible(`${url}-page`);
+    }
+
+    public rateContentUpVote(index: number): void {
+        let upvote = browser.element(`div.arrow.up.login-required.access-required`)[index];
+    }
+    public rateContentDownVote(index: number): void {
+        let downvote = browser.element(`div.arrow.down.login-required.access-required`)[index];
+    }
+
+    generateRandom = () => Math.random().toString(36).substring(7);
 
     public get userKarma() { return browser.element(".userkarma") }
     public get userNameField() { return browser.element('name="user"') }
