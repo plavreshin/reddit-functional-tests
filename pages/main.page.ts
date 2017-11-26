@@ -1,3 +1,4 @@
+
 class MainPage {
     public open(path: string = ""): void {
         browser.url(`/${path}`);
@@ -21,8 +22,10 @@ class MainPage {
         let email = `${userName}@test.me`;
         browser.setValue("#email_reg", email);
         browser.submitForm('#register-form');
-        browser.element(".user").waitForExist(20000);
+        browser.element(".user").waitForExist(10000);
     }
+
+    public logout(): void { browser.submitForm(".logout.hover"); }
 
     public findPostedLink(url: string): void {
         let lookup = browser.element(`a[href='${url}']`);
@@ -58,6 +61,9 @@ class MainPage {
     public get passwordField() { return browser.elementIdName('name="passwd"') }
     public get bottomHeaderElement() { return browser.element("#header-bottom-right") }
     public get noUnreadMessages() { return browser.element(".nohavemail") }
+    public get unsubscribeOption() { return browser.element('.option.remove.active') }
+    public get subscribeOption() { return browser.element('.option.add.active') }
 }
+
 const mainPage = new MainPage();
 export default mainPage;

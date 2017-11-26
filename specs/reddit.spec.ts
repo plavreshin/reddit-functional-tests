@@ -6,19 +6,21 @@ import PreferencesPage from '../pages/preferences.page'
 
 
 describe('Reddit', () => {
-    const generateRandom = () => Math.random().toString(36).substring(10);
-    const subreddit = "pics";
-    const userName = MainPage.generateRandom();
-    const password = MainPage.generateRandom();
+    const generateRandom = () => (Math.random()*1e32).toString(36);
+    const picsSubReddit = "pics";
+    const historicalSubReddit = "askhistorians";
+    const topic = "myTopic";
+    const commentValue = "myFirstComment";
+    const subject = "IDX1511";
+    let userName = MainPage.generateRandom();
+    let password = MainPage.generateRandom();
 
-    before('Sign up in Reddit', () => {
-      
+    beforeEach('Prepare users', () => {
         MainPage.signUp(userName, password);
-    });
+      });
 
-    it('Func_11: Should observe user karma score', () => {
-        MainPage.userKarma.waitForExist();
-        expect(MainPage.userKarma.getText()).to.contain("1");
+    afterEach('Logout', () => {
+        MainPage.logout();
     });
 
     it('Func_06: Should up vote content', () => {
@@ -32,6 +34,16 @@ describe('Reddit', () => {
         SubmissionPage.submitLinkContent("IDX1511", url, subreddit);
     });
 
+    it('Func_01: Should be able to subscribe to new topic', () => {
+        MainPage.open(`r/${historicalSubReddit}`);
+        MainPage.subscribeTo();
+    });
+
+    it('Func_02: Should be able to unsubscribe from existing topic', () => {
+        MainPage.open(`r/${historicalSubReddit}`);
+        MainPage.unsubscribeTo();
+    });
+
     it('Func_07: User should be able to search for content ', () => {
         MainPage.open();
         MainPage.searchContent('IDX1511');
@@ -39,21 +51,25 @@ describe('Reddit', () => {
 
     it('Func_03: Should be able to submit text content', () => {
         SubmissionPage.open("submit?selftext=true");
-        SubmissionPage.submitTextContent(generateRandom(), subreddit, generateRandom());
+        SubmissionPage.submitTextContent(generateRandom(), picsSubReddit, generateRandom());
     });
 
-    it('Func_05: Should be able to comment to just created text content', () => {
-        SubmissionPage.open("submit?selftext=true");
-        let postedContent = SubmissionPage.submitTextContent(generateRandom(), subreddit, "myTopic");
-        CommentsPage.open(postedContent);
-        CommentsPage.addComment("myFirstComment");
+    it('Func_04: Should be able to submit link content', () => {
+        SubmissionPage.open();
+        let url = `https://${generateRandom()}.ee`;
+        SubmissionPage.submitLinkContent(subject, url, picsSubReddit);
     });
 
-    it.skip('Func_05: Should be able edit created comment', () => {
+    it.skip('Func_05: Should be able to comment to just created text content', () => {
         SubmissionPage.open("submit?selftext=true");
-        let postedContent = SubmissionPage.submitTextContent(generateRandom(), subreddit, "myTopic");
+        let postedContent = SubmissionPage.submitTextContent(generateRandom(), picsSubReddit, topic);
         CommentsPage.open(postedContent);
-        CommentsPage.addComment("myFirstComment");
+        CommentsPage.addComment(commentValue);
+    });
+
+    it('Func_11: Should observe user karma score', () => {
+        MainPage.userKarma.waitForExist();
+        expect(MainPage.userKarma.getText()).to.contain("1");
     });
 
     it('Func_08: User  should be able to reply to a comment ', () => {
@@ -107,5 +123,22 @@ describe('Reddit', () => {
     it('Func_20:User should be redirected to login form when logged out from preferences tab ', ()=>{
         PreferencesPage.viewPreferences();
         PreferencesPage.logout();
+    });
+
+    it('Func_17: Should be able to access Reddit’s help center', () => {
+        let faqElement = MainPage.faqElement();
+        expect(faqElement).to.equal("FAQ");
+    });
+
+    it('Func_18: Should be able to add a friend', () => {
+        PreferencesPage.open("prefs/friends");
+        PreferencesPage.addFriend("Athrousch")
+    });
+
+    it('Func_09: Should be able edit created comment', () => {
+        SubmissionPage.open("submit?selftext=true");
+        let postedContent = SubmissionPage.submitTextContent(generateRandom(), picsSubReddit, topic);
+        CommentsPage.open(postedContent);
+        CommentsPage.addComment(commentValue);
     });
 });

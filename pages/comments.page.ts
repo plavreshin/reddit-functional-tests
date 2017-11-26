@@ -11,8 +11,7 @@ class CommentsPage {
         this.submitBtn.waitForExist();
         browser.submitForm('.usertext.cloneable.warn-on-unload');
         browser.waitForExist('.userattrs');
-        let commentUrl = browser.getUrl();
-        console.log("Commented on url: " + commentUrl);
+        this.scoreLikes.waitForExist();
     }
     public replyComment(text: string): void{
         this.comment.waitForVisible(5000);
@@ -38,6 +37,7 @@ class CommentsPage {
     private get comment(){return browser.element("[data-type='comment']");}
     private get textAreaField() { return browser.element("[data-event-action='comment']") }
     private get submitBtn() { return browser.element('[type="submit"]') }
+    private get scoreLikes() { return browser.element('.score.likes') }
 }
 
 const commentsPage = new CommentsPage();
