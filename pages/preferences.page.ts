@@ -19,6 +19,7 @@ class PreferencesPage {
     }
 
     public changeLanguage(option: string = "et") {
+        this.open();
         let drowpdown = this.languageoptions;
         drowpdown.selectByValue(option);
         this.submitBtn.click();

@@ -1,3 +1,4 @@
+const generateRandom = () => (Math.random()*1e32).toString(36);
 
 class MainPage {
     public open(path: string = ""): void {
@@ -12,20 +13,25 @@ class MainPage {
         browser.submitForm('#login_login-main');
     }
 
-    public signUp(userName: string, password: string): void {
+    public signUp(): [string, string] {
         this.open('login');
-        // let userName = this.generateRandom();
+        let userName = generateRandom();
         browser.setValue("#user_reg", userName);
-        // let password = this.generateRandom();
+        let password = generateRandom();
         browser.setValue("#passwd_reg", password);
         browser.setValue("#passwd2_reg", password);
         let email = `${userName}@test.me`;
         browser.setValue("#email_reg", email);
         browser.submitForm('#register-form');
         browser.element(".user").waitForExist(10000);
+        return [userName, password];
     }
 
-    public logout(): void { browser.submitForm(".logout.hover"); }
+    public logout(): void {
+        if (browser.isExisting(".logout.hover")) {
+            browser.submitForm(".logout.hover");
+        }
+    }
 
     public findPostedLink(url: string): void {
         let lookup = browser.element(`a[href='${url}']`);
@@ -69,8 +75,6 @@ class MainPage {
         this.unsubscribeOption.waitForExist();
         this.unsubscribeOption.click();
     }
-
-    generateRandom = () => Math.random().toString(36).substring(7);
 
     public get userKarma() { return browser.element(".userkarma") }
     public get userNameField() { return browser.element('name="user"') }
