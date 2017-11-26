@@ -31,7 +31,7 @@ describe('Reddit', () => {
     it('Func_04: Should be able to submit link content', () => {
         SubmissionPage.open();
         let url = `https://${generateRandom()}.ee`;
-        SubmissionPage.submitLinkContent("IDX1511", url, subreddit);
+        SubmissionPage.submitLinkContent("IDX1511", url, picsSubReddit);
     });
 
     it('Func_01: Should be able to subscribe to new topic', () => {
@@ -74,7 +74,7 @@ describe('Reddit', () => {
 
     it('Func_08: User  should be able to reply to a comment ', () => {
         SubmissionPage.open("submit?selftext=true");
-        let postedContent = SubmissionPage.submitTextContent(generateRandom(), subreddit, "myTopic");
+        let postedContent = SubmissionPage.submitTextContent(generateRandom(), picsSubReddit, "myTopic");
         CommentsPage.open(postedContent);
         CommentsPage.addComment("myFirstComment");
         CommentsPage.replyComment("myFirstreply");
@@ -83,7 +83,7 @@ describe('Reddit', () => {
     it("Func_10: User can delete own added content", () => {
         SubmissionPage.open("submit?selftext=true");
         let title = generateRandom();
-        let postedContent =  SubmissionPage.submitTextContent(title, subreddit, generateRandom());
+        let postedContent =  SubmissionPage.submitTextContent(title, picsSubReddit, generateRandom());
         CommentsPage.open(postedContent);
         CommentsPage.deleteContent();
         // MainPage.open();
